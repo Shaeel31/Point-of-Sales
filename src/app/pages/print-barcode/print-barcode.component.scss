@@ -1,0 +1,15 @@
+.flex {
+    display: inline-flex;
+    margin-bottom: 10px;
+  }
+  
+  .main
+  {
+    max-height: 100vh;   
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+    overflow-y: scroll !important;
+  }
+

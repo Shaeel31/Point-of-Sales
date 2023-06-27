@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <h2 class="text-light" style="text-align: center;">Available Products</h2>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        </li>
+        <li class="nav-item">
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input id="myFilter" class="form-control mr-sm-2" type="Search Products.." (keyup) = "myFunction()" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+
+  <ng-template #othercontent>
+    <h1>No Products To Show</h1>
+  </ng-template>
+
+<div id="myProducts" *ngIf="availableProducts.length && searchEnabled;  else othercontent" style="display: flex;">
+<div *ngFor="let item of availableProducts" class="card" style="width: 18rem; margin: 50px;">
+  <img [src]="item.ImageURL" class="card-img-top">
+  <div class="card-body">
+    <h5 class="card-title">{{item.ProductName}}</h5>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Color : {{item.Color}}</li>
+    <li class="list-group-item">Quantity : {{item.Quantity}}</li>
+    <li class="list-group-item"  >SKU : {{item.BarCodeValue}}</li>
+  </ul>
+</div>
+</div>
+

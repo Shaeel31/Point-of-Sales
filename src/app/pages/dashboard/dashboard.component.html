@@ -1,0 +1,196 @@
+<nb-card size="giant">
+    <nb-card-body>
+    <button nbButton status="success" style="float: right; " (click)="Dialog1(dialog)">Add Product</button>
+    <button  nbButton status="primary"  style="float: right ; margin-right:20px ; " (click)="printValues(ProductPrint)">Print</button>
+    <button  nbButton status="primary"  style="float: right ; margin-right:50px ; " (click)="showProducts()">Show Products</button>
+
+
+
+                                                   <!-- Add Product Information Dialog Box -->
+    <ng-template #dialog MyDialogComponent let-ref="dialogRef">
+      <nb-card size="giant" status ="success">
+        <nb-card-header style = "text-align: center;">Product Information</nb-card-header>
+        <nb-card-body>
+
+                                                      
+          <form id="myform" name="Form"  >
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Product Name</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="text" fieldSize="large" [(ngModel)]="Product.ProductName" name="ProductName"
+               class="form-control" required>
+            </div>
+          </div>
+               <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Color</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="text" fieldSize="large" [(ngModel)]="Product.Color" name="ProductColor"
+               class="form-control"  required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Quantity</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="Product.Quantity" name="Quantity"
+               class="form-control" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Cost Price</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="Product.CostPrice" name="CostPrice"
+               class="form-control" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Sale Price</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="Product.SalePrice" name="SalePrice"
+               class="form-control" required>
+            </div>
+          </div>
+          <!-- ngModel = "Product.imageURL" -->
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Add Product Image</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="file" id="file" [(ngModel)] = "Product.imageURL" (change)="uploadImageWithProduct($event)"  name="image" autocomplete="off" />
+            </div>
+            <nb-progress-bar [value]="60" status="success">success</nb-progress-bar>
+          </div>
+          <div style = "width: 100%; ">
+          <ngx-barcode [bc-value]="BarCodevalue"  [bc-display-value]="true" style="width: 100%;"></ngx-barcode>
+        </div>
+      </form>
+        </nb-card-body>
+        <nb-card-footer>
+          <button status = "danger" nbButton (click)="ref.close()" style="margin-left: 30px;" >Close Dialog</button>
+          <button style="margin-left: 20px ;" (click) = "AddDatatoFirestore()" status = "success" style="margin-left: 80px;"  nbButton >Save Product</button>
+        </nb-card-footer>
+      </nb-card>
+    </ng-template>
+
+
+                                                                             <!-- EDIT A PRODUCTS INFORMATION -->
+
+
+    <ng-template #editdialog EditDialogComponent let-ref="dialogRef">
+      <nb-card size="large">
+        <nb-card-header>Product Information</nb-card-header>
+        <nb-card-body>
+
+                                                                              <!-- Product Information Form -->
+          <form id="myform" name="Form"  >
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Product Name</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="text" fieldSize="large" [(ngModel)]="EditProduct.ProductName" name="ProductName"
+               class="form-control" value="{{EditProduct.ProductName}}" required>
+            </div>
+          </div>
+               <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Color</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="text" fieldSize="large" [(ngModel)]="EditProduct.Color" name="ProductColor"
+               class="form-control"  value="{{EditProduct.Color}}" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Quantity</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="EditProduct.Quantity" name="Quantity"
+               class="form-control" placeholder= {{EditProduct.Quantity}} required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Cost Price</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="EditProduct.CostPrice" name="CostPrice"
+               class="form-control" placeholder= {{EditProduct.CostPrice}} required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>Sale Price</strong></label>
+            <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large" [(ngModel)]="EditProduct.SalePrice" name="SalePrice"
+               class="form-control" placeholder={{EditProduct.SalePrice}} required>
+            </div>
+          </div>
+          
+          <div style = "width: 100%; "> 
+          <ngx-barcode [bc-value]="EditProductBarCode"  [bc-display-value]="true" style="width: 100%;"></ngx-barcode>
+        </div>
+      </form>
+        </nb-card-body>
+        <nb-card-footer>
+          <button status = "danger" nbButton (click)="dialogRef.close()">Close Dialog</button>
+          <button style="margin-left: 20px ;" (click) = "updateDatatoFirestore()" status = "success" nbButton >Save Product</button>
+
+        </nb-card-footer>
+      </nb-card>
+    </ng-template>
+
+
+
+                                                               <!-- PRODUCT PRINT TEMPLATE  -->
+
+    <ng-template #ProductPrint ProductPrintInfo let-ref="dialogRef" >
+      <nb-card size = "medium">
+        <nb-card-header>Print Product Information</nb-card-header>
+        <nb-card-body>
+        <p>Add Quantity for Each of the Selected Item ?</p>
+
+        <div *ngFor="let item of proddata">
+          <div class="form-group row">
+            <label class="col-sm-5 col-form-label"><strong>{{item.ProductName}}</strong></label>
+              <div class="col-sm-7 input-group-sm">
+              <input type="number" fieldSize="large"  
+               class="form-control"  required [(ngModel)]="item.printQuantity">
+            </div>
+          </div>
+        </div>
+        </nb-card-body>
+        <nb-card-footer>
+          <button status = "danger" nbButton (click)="closedialog()">Close Dialog</button>
+          <button style="margin-left: 20px ;" (click) = "printProducts()"  status = "success" nbButton >Print Products</button>
+        </nb-card-footer>
+      </nb-card>
+    </ng-template>
+
+                                                               <!-- NGX TABLE ROWS AND COLUMNS -->
+      <ngx-table [configuration]="configuration"
+           [data]="data" 
+           [columns]="columns">
+           <ng-template #prodprint prodinfo let-row let-ref = "dialogRef">
+            <nb-checkbox style="margin-left: 40px;" (checkedChange) ="checkBoxChange(row , $event)" ></nb-checkbox> 
+            <td>{{row.BarCodeValue}}</td>
+            <td>{{row.ProductName}}</td>
+            <td>{{row.Color}}</td>
+            <td>{{row.CostPrice}}</td>
+            <td>{{row.SalePrice}}</td>
+            <td>{{row.Quantity}}</td>
+            <span (click) = "deleteProductDialog(row , deletedialog)" >
+              <i style="color:lightseagreen; margin-top:15px; margin-right: 10px; font-size: large;" class="fas fa-trash-alt"></i>
+            </span>
+            <span (click)="editItem(editdialog,row)">
+              <i  style="color: green; font-size: large; position :absolute  ; margin-right: 20px; margin-top: 15px;" class="fas fa-edit"></i>
+            </span>
+          </ng-template>
+      </ngx-table>
+    </nb-card-body>
+
+                                                               <!-- Delete Product Dialog Box -->
+
+    <ng-template DeleteDialog #deletedialog let-data let-ref="dialogRef">
+      <nb-card status = "danger">
+        <nb-card-header>Delete Product</nb-card-header>
+        <nb-card-body>Are you sure you want to delete the product form the list ?</nb-card-body>
+        <nb-card-footer>
+          <button nbButton (click) = "deleteListProduct()" >Yes</button>
+
+          <button  style="margin-left : 30px" nbButton (click)="ref.close()">No</button>
+        </nb-card-footer>
+      </nb-card>
+    </ng-template>
+
+
+  </nb-card>

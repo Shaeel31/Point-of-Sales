@@ -1,0 +1,16 @@
+ <div class="main">
+    <div  *ngFor="let item of data"> 
+        <h2 style="text-align: center; background-color:deepskyblue;">{{item.ProductName}}</h2>   
+        <!-- <div class="flex" *ngFor="let i of [].constructor(item.printQuantity)"> -->
+        <div class="flex" *ngFor="let i of countera(item.printQuantity)">
+          
+         <div>
+           <span>
+          <span style="font-size: 15px; position: relative ; top: 25px ;">{{item.ProductName}}-{{item.Color}}</span> 
+            <ngx-barcode [bc-value]="item.BarCodeValue"  [bc-display-value]="false"></ngx-barcode>
+          <span style="font-size: 20px ;position: relative;bottom: 35px;">Rs: {{item.SalePrice}}</span>
+        </span>
+         </div>
+        </div>
+   </div>
+</div>
