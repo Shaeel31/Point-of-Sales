@@ -16,6 +16,7 @@ Welcome to the Point of Sales (POS) project! This is an Angular-based web applic
 ## Technologies Used
 
 - Angular: An open-source framework for building efficient web applications.
+- TypeScript: A free and open-source high-level programming language developed by Microsoft that adds static typing with optional type annotations to JavaScript. 
 - Firebase: A powerful development platform that provides various cloud services, including real-time database, authentication, and hosting.
 - Barcode API: Integration with a barcode generation API to dynamically create unique barcodes for each product.
 
